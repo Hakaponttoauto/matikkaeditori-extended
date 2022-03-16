@@ -1,0 +1,37 @@
+{
+    "manifest_version": 2,
+    "name": "Matikkaeditori-themes",
+    "version": "1.0",
+
+    "description": "Adds themes to math-demo.abitti.fi.",
+
+    "icons": {
+        "48": "icons/icon-48.png"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["*://math-demo.abitti.fi/*"],
+            "js": ["util.js", "matikkaeditori.js"]
+        }
+    ],
+
+    "permissions": [
+        "storage"
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "matikkaeditori@haka.dev",
+            "strict_min_version": "42.0"
+        }
+    },
+    "page_action": {
+        "show_matches": ["*://math-demo.abitti.fi/*"],
+        "browser_style": true,
+        "default_icon": {
+            "48": "icons/icon-48.png"
+        },
+        "default_title": "Matikkaeditori",
+        "default_popup": "popup/index.html"
+    }
+}
