@@ -15,46 +15,60 @@ function recurseFind(obj, test) {
     return undefined;
 }
 
-function getAnswer() {
-    let res = []
-    for (element of document.getElementById("answer1").children) {
-        let group = []
-        for (child of element.childNodes) {
-            if (child.nodeName == "IMG" && child.style.display != "none") {
-                if (child.getAttribute("src").startsWith("/math.svg") && child.alt.length > 0) {
-                    group.push({math: child.alt})
+function toJson(child) {
+	if (child.nodeName == "IMG" && child.style.display != "none") {
+             	if (child.getAttribute("src").startsWith("/math.svg") && child.alt.length > 0) {
+                    return {math: child.alt}
                 } else {
-                    group.push({pic: child.getAttribute("src")})
+                    return {pic: child.getAttribute("src")}
                 }
             } else if (child.nodeName == "#text") {
-                group.push({text: child.textContent})
+                return {text: child.textContent}
             } else if (child.nodeName == "BR") {
-                group.push({})
+                return {}
             }
-        }
-        res.push(group)
+}
+
+function fromJson(child) {
+		if (child.math) {
+	                return `<img alt="${child.math}" src="/math.svg?latex=${encodeURIComponent(child.math)}">`
+	            } else if (child.pic) {
+	                return `<img src="${child.pic}">`
+	            } else if (child.text) {
+	                return child.text
+	            } else {
+	          	return "<br>"
+            	    }
+}
+
+function getAnswer() {
+    let res = []
+    for (element of document.getElementById("answer1").childNodes) {
+	if (element.nodeName == "DIV") {
+        	let group = []
+        	for (child of element.childNodes) {
+            		group.push(toJson(child))
+        	}
+        	res.push(group)
+	} else {
+		res.push(toJson(element))
+	}
     }
-    console.log(res)
     return res
 }
 
 function setAnswer(answer) {
     let res = ""
     for (group of answer) {
-        res += "<div>"
-        for (child of group) {
-            if (child.math) {
-                res += `<img alt="${child.math}" src="/math.svg?latex=${encodeURIComponent(child.math)}">`
-            } else if (child.pic) {
-                res += `<img src="${child.pic}">`
-            } else if (child.text) {
-                res += child.text
-            } else {
-                res += "<br>"
-            }
-        }
-        res += "</div>"
+	if (Array.isArray(group)) {
+        	res += "<div>"
+	        for (child of group) {
+	            res += fromJson(child)
+        	}
+        	res += "</div>"
+	} else {
+		res += fromJson(group)
+	}
     }
-    console.log(res)
     document.getElementById("answer1").innerHTML = res
 }

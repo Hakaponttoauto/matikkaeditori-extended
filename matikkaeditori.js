@@ -6,8 +6,6 @@ window.addEventListener("blur", (e) => {
     }
 }, true);
 
-document.body.style.border = "5px solid red";
-
 let answer = document.getElementById("answer1")
 
 window.addEventListener("beforeunload", () => {
@@ -17,7 +15,6 @@ window.addEventListener("beforeunload", () => {
 
 
 browser.storage.sync.get("autosave").then((save) => {
-    console.log(save)
     if (save.autosave) {
         setAnswer(save.autosave)
     }

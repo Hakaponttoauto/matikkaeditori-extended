@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
-    "name": "Matikkaeditori-themes",
-    "version": "1.0",
+    "name": "Matikkaeditori-extended",
+    "version": "1.0.2",
 
-    "description": "Adds themes to math-demo.abitti.fi.",
+    "description": "Makes math-demo.abitti.fi better.",
 
     "icons": {
         "48": "icons/icon-48.png"
@@ -22,7 +22,7 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "matikkaeditori@haka.dev",
-            "strict_min_version": "42.0"
+            "strict_min_version": "79.0"
         }
     },
     "page_action": {
